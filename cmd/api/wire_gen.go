@@ -36,7 +36,7 @@ func initApp(contextContext context.Context, bootstrap *conf.Bootstrap, client x
 	}
 	distributedLock := data.NewToolDistributedLock(redisLock)
 	demoRepo := data.NewDemoRepo(databaseDefault)
-	demoUsecase := biz.NewDemoUsecase(transactionDefaultRepo, distributedLock, demoRepo, logger)
+	demoUsecase := biz.NewDemoUsecase(transactionDefaultRepo, distributedLock, demoRepo)
 	demoApi := api.NewDemoApi(demoUsecase, logger)
 	router := server.InitHTTPRouter(httpServer, demoApi)
 	app := newApp(contextContext, bootstrap, httpServer, router, logger)
@@ -62,7 +62,7 @@ func InitDemo() (*biz.DemoUsecase, func(), error) {
 	}
 	distributedLock := data.NewToolDistributedLock(redisLock)
 	demoRepo := data.NewDemoRepo(databaseDefault)
-	demoUsecase := biz.NewDemoUsecase(transactionDefaultRepo, distributedLock, demoRepo, logger)
+	demoUsecase := biz.NewDemoUsecase(transactionDefaultRepo, distributedLock, demoRepo)
 	return demoUsecase, func() {
 		cleanup2()
 		cleanup()

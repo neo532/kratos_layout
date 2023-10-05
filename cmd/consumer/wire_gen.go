@@ -33,7 +33,7 @@ func initApp(contextContext context.Context, bootstrap *conf.Bootstrap, logger l
 	}
 	distributedLock := data.NewToolDistributedLock(redisLock)
 	demoRepo := data.NewDemoRepo(databaseDefault)
-	demoUsecase := biz.NewDemoUsecase(transactionDefaultRepo, distributedLock, demoRepo, logger)
+	demoUsecase := biz.NewDemoUsecase(transactionDefaultRepo, distributedLock, demoRepo)
 	demoConsumer := consumer.NewDemoConsumer(demoUsecase, logger)
 	queueConsumer := server.NewConsumerDefault(contextContext, bootstrap, logger, demoConsumer)
 	app := newApp(contextContext, bootstrap, logger, queueConsumer)

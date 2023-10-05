@@ -33,7 +33,7 @@ func initApp(contextContext context.Context, arg chan struct{}, arg2 []string, b
 	}
 	distributedLock := data.NewToolDistributedLock(redisLock)
 	demoRepo := data.NewDemoRepo(databaseDefault)
-	demoUsecase := biz.NewDemoUsecase(transactionDefaultRepo, distributedLock, demoRepo, logger)
+	demoUsecase := biz.NewDemoUsecase(transactionDefaultRepo, distributedLock, demoRepo)
 	demoScript := script.NewDemoScript(demoUsecase, logger)
 	serverScript := server.NewScript(arg2, arg, logger, demoScript)
 	app := newApp(contextContext, bootstrap, logger, serverScript)

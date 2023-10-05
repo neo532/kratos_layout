@@ -1,6 +1,5 @@
 GOPATH:=$(shell go env GOPATH)
 VERSION=$(shell git describe --tags --always)
-INTERNAL_CONFIG_FILES=$(shell find internal/conf -name *.proto)
 
 ifeq ($(GOHOSTOS), windows)
 	#the `find.exe` is different from `find` in bash/shell.
@@ -8,9 +7,9 @@ ifeq ($(GOHOSTOS), windows)
 	#changed to use git-bash.exe to run find cli or other cli friendly, caused of every developer has a Git.
 	#Git_Bash= $(subst cmd\,bin\bash.exe,$(dir $(shell where git)))
 	Git_Bash=$(subst \,/,$(subst cmd\,bin\bash.exe,$(dir $(shell where git))))
-	API_PROTO_FILES=$(shell $(Git_Bash) -c "find api -name *.proto")
+	INTERNAL_CONFIG_FILES=$(shell $(Git_Bash) -c "find internal/conf -name *.proto")
 else
-	API_PROTO_FILES=$(shell find api -name *.proto)
+	INTERNAL_CONFIG_FILES=$(shell find internal/conf -name *.proto)
 endif
 
 
@@ -19,6 +18,7 @@ endif
 init:
 	go get github.com/google/wire/cmd/wire@v0.5.0
 	go install github.com/codeskyblue/fswatch@latest
+
 
 .PHONY: buildEnv
 # initilize build env
@@ -40,10 +40,24 @@ config:
  	       --go_out=paths=source_relative:. \
 	       $(INTERNAL_CONFIG_FILES)
 
+
+.PHONY: generate
+# generate config & wire_gen
+generate:
+	go generate ./...
+
+
+.PHONY: all
+# generate all
+all:
+	make config;
+	make generate;
+
+
 .PHONY: preBuild
 # preBuild
 preBuild:
-	wire 
+	make generate
 
 .PHONY: build
 # build
@@ -66,49 +80,20 @@ buildScript:
 	mkdir -p bin/ && go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/ ./cmd/script
 
 
-.PHONY: generate
-# generate config & wire_gen
-generate:
-	go generate ./...
-
-
-.PHONY: all
-# generate all
-all:
-	make config;
-	make generate;
-
-
 .PHONY: runScript
 # start script
 runScript:
 	fswatch --config cmd/script/.fsw.yml
-
 
 .PHONY: runConsumer
 # start consumer
 runConsumer:
 	fswatch --config cmd/consumer/.fsw.yml
 
-
 .PHONY: runApi
 # start api server
 runApi:
 	fswatch --config cmd/api/.fsw.yml
-
-.PHONY: api
-# generate api proto
-api:
-	protoc --proto_path=./api \
-	       --proto_path=./third_party \
- 	       --go_out=paths=source_relative:./api \
-		   --go-grpc_out=paths=source_relative:./api \
- 	       --go-http_out=paths=source_relative:./api \
-		   --go-errors_out=paths=source_relative:./api \
-	       --openapi_out=fq_schema_naming=true,default_response=false:. \
-		   --validate_out=lang=go,paths=source_relative:./api \
-	       $(API_PROTO_FILES)
-		#"--openapi_out=paths=source_relative:.",
 
 
 # show help
