@@ -44,7 +44,7 @@ initConfig:
 .PHONY: generate
 # generate config & wire_gen
 generate:
-	go generate ./...
+	go generate ./cmd/...
 
 
 .PHONY: build
