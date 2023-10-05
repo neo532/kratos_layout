@@ -13,24 +13,18 @@ else
 endif
 
 
+.PHONY: env
+# initilize env
+env:
+	export GOPROXY=https://goproxy.cn
+	export GOSUMDB="off"
+
+
 .PHONY: init
 # init env
 init:
 	go get github.com/google/wire/cmd/wire@v0.5.0
 	go install github.com/codeskyblue/fswatch@latest
-
-
-.PHONY: buildEnv
-# initilize build env
-buildEnv:
-	export GOPROXY=https://goproxy.cn
-	export GOSUMDB="off"
-
-
-.PHONY: initConfig
-# initilize a config file
-initConfig:
-	mkdir -p ./configs && cp internal/conf/config.dev.yaml ./configs/config.yaml
 
 
 .PHONY: config
@@ -41,23 +35,17 @@ config:
 	       $(INTERNAL_CONFIG_FILES)
 
 
+.PHONY: initConfig
+# initilize a config file
+initConfig:
+	mkdir -p ./configs && cp internal/conf/config.dev.yaml ./configs/config.yaml
+
+
 .PHONY: generate
 # generate config & wire_gen
 generate:
 	go generate ./...
 
-
-.PHONY: all
-# generate all
-all:
-	make config;
-	make generate;
-
-
-.PHONY: preBuild
-# preBuild
-preBuild:
-	make generate
 
 .PHONY: build
 # build
@@ -80,20 +68,32 @@ buildScript:
 	mkdir -p bin/ && go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/ ./cmd/script
 
 
-.PHONY: runScript
-# start script
-runScript:
-	fswatch --config cmd/script/.fsw.yml
+.PHONY: runApi
+# start api server
+runApi:
+	fswatch --config cmd/api/.fsw.yml
 
 .PHONY: runConsumer
 # start consumer
 runConsumer:
 	fswatch --config cmd/consumer/.fsw.yml
 
-.PHONY: runApi
-# start api server
-runApi:
-	fswatch --config cmd/api/.fsw.yml
+.PHONY: runScript
+# start script
+runScript:
+	fswatch --config cmd/script/.fsw.yml
+
+
+.PHONY: all
+# generate all
+all:
+	make env;
+	make init;
+	make config;
+	make initConfig;
+	make generate;
+	make build;
+	make runApi
 
 
 # show help
