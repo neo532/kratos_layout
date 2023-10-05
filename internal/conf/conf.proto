@@ -117,15 +117,6 @@ message Data {
     message DatabaseDefault {
         Database conf = 1;
     }
-    message DatabaseHuijunon {
-        Database conf = 1;
-    }
-    message RedisDefault {
-        Redis conf = 1;
-    }
-    message RedisWechat {
-        Redis conf = 1;
-    }
     message RedisLock {
         Redis conf = 1;
     }
@@ -137,11 +128,8 @@ message Data {
     }
 
     DatabaseDefault database_default = 10;
-    DatabaseHuijunon database_huijunon = 11;
 
-    RedisDefault redis_default = 20;
     RedisLock redis_lock = 21;
-    RedisWechat redis_wechat = 22;
 
     ProducerDefault producer_default = 30;
     ConsumerDefault consumer_default = 40;
