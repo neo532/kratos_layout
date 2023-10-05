@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package sample.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "client/sample/v1;v1";
+
+service Sample {
+
+    // Get
+	rpc Get (GetRequest) returns (GetReply){
+        option (google.api.http)={
+            get: "/api/live_code/select"
+        };
+    };
+}
+
+// Get
+message GetRequest {
+    string code_channel_id = 1;
+}
+message GetReply {
+    string msg = 1;
+    int32 code = 2;
+}

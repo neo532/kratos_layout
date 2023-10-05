@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package demo.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "api/demo/v1;v1";
+
+service Demo {
+
+    // create
+	rpc Create (CreateRequest) returns (google.protobuf.Empty){
+        option (google.api.http)={
+            post: "/demo/create"
+            body: "*"
+        };
+    };
+
+    // get all
+	rpc Get (google.protobuf.Empty) returns (GetReply){
+        option (google.api.http)={
+            get: "/demo/get"
+        };
+    };
+}
+
+// Create
+message CreateRequest {
+    int64 id = 1 [(validate.rules).int64 = {gt:0}];
+    string name = 2 [(validate.rules).string = {min_len:1}];
+}
+
+// Get
+message GetReply {
+    int64 id = 1;
+    string name = 2;
+}
