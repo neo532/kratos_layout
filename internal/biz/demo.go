@@ -6,31 +6,27 @@ import (
 	"strings"
 	"time"
 
-	klog "github.com/go-kratos/kratos/v2/log"
 	"github.com/neo532/gofr/tool"
-	"github.com/neo532/gokit/log"
 
 	"github.com/neo532/kratos_layout/internal/biz/entity"
 	"github.com/neo532/kratos_layout/internal/biz/repo"
 )
 
 type DemoUsecase struct {
-	tx  repo.TransactionDefaultRepo
-	lk  *tool.DistributedLock
-	dm  repo.DemoRepo
-	log *log.Helper
+	tx repo.TransactionDefaultRepo
+	lk *tool.DistributedLock
+	dm repo.DemoRepo
 }
 
 func NewDemoUsecase(
 	tx repo.TransactionDefaultRepo,
 	lk *tool.DistributedLock,
 	dm repo.DemoRepo,
-	logger klog.Logger) *DemoUsecase {
+) *DemoUsecase {
 	return &DemoUsecase{
-		tx:  tx,
-		lk:  lk,
-		dm:  dm,
-		log: log.NewHelper(logger),
+		tx: tx,
+		lk: lk,
+		dm: dm,
 	}
 }
 
