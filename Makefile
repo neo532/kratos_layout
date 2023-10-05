@@ -92,6 +92,7 @@ all:
 	make config;
 	make initConfig;
 	make generate;
+	cd proto && make all;
 	make build;
 	make runApi
 
