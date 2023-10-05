@@ -34,8 +34,8 @@ pid
 openapi.yaml
 /log
 /third_party
-*.pb.go
-*.pb.validate.go
+/proto/*.pb.go
+/proto/*.pb.validate.go
 
 # Develop tools
 .vscode/
