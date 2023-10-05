@@ -1,6 +1,6 @@
 module github.com/neo532/kratos_layout
 
-go 1.21.1
+go 1.18
 
 require (
 	github.com/IBM/sarama v1.41.1
@@ -9,7 +9,7 @@ require (
 	github.com/google/wire v0.5.0
 	github.com/neo532/apitool v1.0.2
 	github.com/neo532/gofr v0.0.0-20230315082650-704dda72e9ba
-	github.com/neo532/gokit v1.0.10
+	github.com/neo532/gokit v1.0.11
 	github.com/pkg/errors v0.9.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20230913181813-007df8e322eb
 	google.golang.org/grpc v1.58.1
