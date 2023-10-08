@@ -20,7 +20,6 @@ endif
 .PHONY: init
 # init env
 init:
-	go get github.com/envoyproxy/protoc-gen-validate
 	go install github.com/envoyproxy/protoc-gen-validate@latest
 	go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
 	go install github.com/go-kratos/kratos/cmd/protoc-gen-go-errors/v2@latest
