@@ -10,7 +10,7 @@ import (
 	"context"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/neo532/apitool/transport/http/xhttp"
+	"github.com/neo532/apitool/transport/http/xhttp/client"
 	"github.com/neo532/kratos_layout/cmd"
 	"github.com/neo532/kratos_layout/internal/biz"
 	"github.com/neo532/kratos_layout/internal/conf"
@@ -22,7 +22,7 @@ import (
 // Injectors from wire.go:
 
 // initApp init kratos application.
-func initApp(contextContext context.Context, bootstrap *conf.Bootstrap, client xhttp.Client, logger log.Logger) (*kratos.App, func(), error) {
+func initApp(contextContext context.Context, bootstrap *conf.Bootstrap, clientClient client.Client, logger log.Logger) (*kratos.App, func(), error) {
 	httpServer := server.NewHTTPServer(bootstrap, logger)
 	databaseDefault, cleanup, err := data.NewDatabaseDefault(contextContext, bootstrap, logger)
 	if err != nil {

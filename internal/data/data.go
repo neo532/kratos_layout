@@ -4,7 +4,7 @@ import (
 	"context"
 
 	klog "github.com/go-kratos/kratos/v2/log"
-	"github.com/neo532/apitool/transport/http/xhttp"
+	"github.com/neo532/apitool/transport/http/xhttp/client"
 	"github.com/neo532/gofr/tool"
 	"github.com/neo532/gokit/database/orm"
 	"github.com/neo532/gokit/database/redis"
@@ -49,9 +49,10 @@ func NewToolDistributedLock(rdb RedisLock) *tool.DistributedLock {
 // ========== /Producer ==========
 
 // ========== Client ==========
-func NewSampleXHttpClient(clt xhttp.Client, bs *conf.Bootstrap) (xclt *sample.SampleXHttpClient) {
+func NewSampleXHttpClient(clt client.Client, bs *conf.Bootstrap) (xclt *sample.SampleXHttpClient) {
 	xclt = sample.NewSampleXHttpClient(clt)
 	xclt.Domain = bs.Third.Sample.Domain
+	xclt.WithMiddleware(sample.Demo())
 	return
 }
 

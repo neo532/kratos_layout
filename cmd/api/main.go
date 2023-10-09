@@ -10,7 +10,7 @@ import (
 	klog "github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/neo532/apitool/transport"
-	"github.com/neo532/apitool/transport/http/xhttp"
+	"github.com/neo532/apitool/transport/http/xhttp/client"
 	"github.com/neo532/gokit/log"
 	"github.com/neo532/gokit/middleware"
 	"github.com/neo532/gokit/middleware/tracing"
@@ -85,9 +85,9 @@ func main() {
 	app, cleanup, err := initApp(
 		cmd.BootContext(),
 		bs,
-		xhttp.New(
-			xhttp.WithLogger(log.NewXHttpLogger(logger)),
-			xhttp.WithEnv(envEnv),
+		client.New(
+			client.WithLogger(log.NewXHttpLogger(logger)),
+			client.WithEnv(envEnv),
 		),
 		logger,
 	)

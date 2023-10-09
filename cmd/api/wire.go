@@ -11,7 +11,7 @@ import (
 	kratos "github.com/go-kratos/kratos/v2"
 	klog "github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
-	"github.com/neo532/apitool/transport/http/xhttp"
+	"github.com/neo532/apitool/transport/http/xhttp/client"
 
 	"github.com/neo532/kratos_layout/cmd"
 	"github.com/neo532/kratos_layout/internal/biz"
@@ -25,7 +25,7 @@ import (
 func initApp(
 	context.Context,
 	*conf.Bootstrap,
-	xhttp.Client,
+	client.Client,
 	klog.Logger,
 ) (*kratos.App, func(), error) {
 	panic(wire.Build(
