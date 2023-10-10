@@ -12,13 +12,14 @@ service Sample {
 	rpc Get (GetRequest) returns (GetReply){
         option (google.api.http)={
             get: "/api/live_code/select"
+            requestEncoder: "RequestEncoder"
         };
     };
 }
 
 // Get
 message GetRequest {
-    string code_channel_id = 1;
+    string code_channel_id = 1; // @inject_tag: json:"id"
 }
 message GetReply {
     string msg = 1;
