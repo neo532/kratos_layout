@@ -1,5 +1,7 @@
 GOPATH:=$(shell go env GOPATH)
 VERSION=$(shell git describe --tags --always)
+PATH:=$(PATH):$(GOPATH)/bin
+SHELL=env PATH=$(PATH) $(SHELL)
 
 ifeq ($(GOHOSTOS), windows)
 	#the `find.exe` is different from `find` in bash/shell.
