@@ -39,15 +39,15 @@ func (uc *DemoUsecase) Create(c context.Context, dm *entity.Demo) (err error) {
 	}
 	defer uc.lk.UnLock(c, key, code)
 
-	err = uc.tx.Transaction(c, func(c context.Context) (err error) {
+	err = uc.tx.Transaction(c, func(ctx context.Context) (err error) {
 
 		// get
-		if _, err = uc.dm.Get(c); err != nil {
+		if _, err = uc.dm.Get(ctx); err != nil {
 			return
 		}
 
 		// create
-		if _, err = uc.dm.Create(c, dm); err != nil {
+		if _, err = uc.dm.Create(ctx, dm); err != nil {
 			return
 		}
 
