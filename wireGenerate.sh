@@ -9,7 +9,7 @@ do
 
     package=$(basename $dir)
     news=$(grep -r '^func New' $dir|awk '{print $2}'|awk -F'(' '{printf "\\t%s,\\n",$1}')
-    tpl=$(echo -e "package $package\n\nimport (\n\t\"github.com/google/wire\"\n)\n\nvar ProviderSet = wire.NewSet(\n$news)")
+    tpl=$(echo -e "// generate by wireGenerate.sh with '^func New' in on package\npackage $package\n\nimport (\n\t\"github.com/google/wire\"\n)\n\nvar ProviderSet = wire.NewSet(\n$news)")
 
     tplC=$(echo $tpl|tr -d '\n'|sed -E 's/[[:space:]]*//g')
     cntOriC=$(echo $cntOri|tr -d '\n'|sed -E 's/[[:space:]]*//g')
