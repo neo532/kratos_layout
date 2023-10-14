@@ -1,16 +1,21 @@
 GOPATH:=$(shell go env GOPATH)
-VERSION=$(shell git describe --tags --always)
-PATH:=$(PATH):$(GOPATH)/bin
-SHELL=env PATH=$(PATH) $(SHELL)
+VERSION:=$(shell git describe --tags --always)
+#PATH:=$(shell $(PATH)):$(shell $(GOPATH))/bin
 
-ifeq ($(GOHOSTOS), windows)
+ifeq ($(go env GOHOSTOS), windows)
 	#the `find.exe` is different from `find` in bash/shell.
 	#to see https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/find.
 	#changed to use git-bash.exe to run find cli or other cli friendly, caused of every developer has a Git.
 	#Git_Bash= $(subst cmd\,bin\bash.exe,$(dir $(shell where git)))
 	Git_Bash=$(subst \,/,$(subst cmd\,bin\bash.exe,$(dir $(shell where git))))
 	INTERNAL_CONFIG_FILES=$(shell $(Git_Bash) -c "find internal/conf -name *.proto")
+else ifeq ($(go env GOHOSTOS), darwin)
+	PATH:=$(PATH):$(GOPATH)/bin
+	SHELL=env PATH=$(PATH) /bin/bash
+	INTERNAL_CONFIG_FILES=$(shell find internal/conf -name *.proto)
 else
+	PATH:=$(PATH):$(GOPATH)/bin
+	SHELL=env PATH=$(PATH) /bin/bash
 	INTERNAL_CONFIG_FILES=$(shell find internal/conf -name *.proto)
 endif
 
@@ -46,6 +51,7 @@ initConfig:
 .PHONY: generate
 # generate config & wire_gen
 generate:
+	./wireGenerate.sh
 	go generate ./cmd/...
 
 

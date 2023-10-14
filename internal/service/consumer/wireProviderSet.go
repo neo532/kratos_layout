@@ -1,9 +1,9 @@
-package script
+  package consumer
 
 import (
 	"github.com/google/wire"
 )
 
 var ProviderSet = wire.NewSet(
-	NewDemoScript,
+	NewDemoConsumer,
 )
